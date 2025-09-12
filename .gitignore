@@ -1,7 +1,7 @@
-# Compiled class file
+# Compiled class files
 *.class
 
-# Log file
+# Log files
 *.log
 
 # BlueJ files
@@ -10,7 +10,7 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
-# Package Files #
+# Package archives
 *.jar
 *.war
 *.nar
@@ -19,6 +19,46 @@
 *.tar.gz
 *.rar
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+# JVM crash logs
 hs_err_pid*
 replay_pid*
+
+# Application config
+config.properties
+.env
+
+# Maven/Gradle build output
+/target/
+/build/
+
+# IntelliJ IDEA
+.idea/
+/shelf/
+/workspace.xml
+*.iml
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# VS Code
+.vscode/
+
+# Editor-based HTTP Client requests
+/httpRequests/
+
+# Datasource local storage
+/dataSources/
+/dataSources.local.xml
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Test reports
+/surefire-reports/
+/cucumber-report.html
+/cucumber.json
+/allure-results/
+/allure-report/
