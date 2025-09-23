@@ -18,4 +18,5 @@ public class AppProperties {
   private String password;
   private String baseUrl;
   private String browser;
+  private int totalOfLinks;
 }
