@@ -26,17 +26,15 @@ public class NavigationPage {
   private final AppProperties properties;
   private final SelenideElement headingMessage = $(byTagName("h1"));
   private final SelenideElement subHeadingMessage = $(byTagName("h2"));
+  private final SelenideElement footerMessage = $("#page-footer");
+  private final SelenideElement forkMeBadge = $("a").$("img[alt='Fork me on GitHub']");
   private final ElementsCollection links = $("#content").$$("a");
 
   public void openHomePage() {
     open(properties.getBaseUrl());
   }
 
-  /*
-   This could be changed in order to use the getter annotation, but I'd like to keep the message that the amount of
-   links that were found
-   */
-  public void getListOfClickableLinks() {
+  public void listPresentLinks() {
     log.info("The page currently has {} clickable links:", getLinks().size());
     for (SelenideElement link : links) {
       log.info(link.getText());

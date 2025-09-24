@@ -4,5 +4,3 @@ app:
 
   username: ${APP_USERNAME}
   password: ${APP_PASSWORD}
-
-  total-of-links: 44
