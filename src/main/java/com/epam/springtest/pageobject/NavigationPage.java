@@ -3,8 +3,10 @@ package com.epam.springtest.pageobject;
 import static com.codeborne.selenide.Selectors.byTagName;
 import static com.codeborne.selenide.Selenide.*;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import com.epam.springtest.enums.Links;
 import com.epam.springtest.util.AppProperties;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,7 @@ public class NavigationPage {
   private final SelenideElement footerMessage = $("#page-footer");
   private final SelenideElement forkMeBadge = $("a").$("img[alt='Fork me on GitHub']");
   private final ElementsCollection links = $("#content").$$("a");
+  private final String LINK_TEMPLATE = "#content a";
 
   public void openHomePage() {
     open(properties.getBaseUrl());
@@ -39,5 +42,11 @@ public class NavigationPage {
     for (SelenideElement link : links) {
       log.info(link.getText());
     }
+  }
+
+  public void clickLink(Links link) {
+    $$(LINK_TEMPLATE)
+            .findBy(Condition.text(link.getAltText()))
+            .click();
   }
 }

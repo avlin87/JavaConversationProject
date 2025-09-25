@@ -1,10 +1,12 @@
 package com.epam.springtest.steps;
 
+import com.epam.springtest.enums.Links;
 import com.epam.springtest.pageobject.NavigationPage;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.SoftAssertions;
 
 /**
@@ -13,6 +15,7 @@ import org.assertj.core.api.SoftAssertions;
  * <p>Delegates UI interactions to {@link NavigationPage} and verifies the welcome message on the
  * home page.
  */
+@Slf4j
 @RequiredArgsConstructor
 public class NavigationSteps {
 
@@ -67,5 +70,10 @@ public class NavigationSteps {
             .assertThat(navigationPage.getForkMeBadge().isDisplayed())
             .isTrue();
     softAssertions.assertAll();
+  }
+
+  @And("^I click (.*) link$")
+  public void iClickLink(Links link) {
+    navigationPage.clickLink(link);
   }
 }
