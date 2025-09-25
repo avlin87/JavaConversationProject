@@ -1,13 +1,13 @@
 package com.epam.springtest.steps;
 
-import com.epam.springtest.enums.Links;
+import com.epam.springtest.enums.HomePageLink;
 import com.epam.springtest.pageobject.NavigationPage;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.SoftAssertions;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Step definitions for navigation-related Cucumber scenarios.
@@ -26,54 +26,40 @@ public class NavigationSteps {
     navigationPage.openHomePage();
   }
 
-  @Then("^I see the heading (.*)$")
-  public void iSeeTheHeading(String message) {
-    var softAssertions = new SoftAssertions();
-    softAssertions
-            .assertThat(navigationPage.getHeadingMessage().getText())
+  @Then("^I verify visibility of heading with (.*)$")
+  public void iVerifyVisibilityOfHeadingWith(String message) {
+    assertThat(navigationPage.getHeadingMessage().getText())
             .isEqualToIgnoringCase(message);
-    softAssertions.assertAll();
   }
 
-  @Then("^I see the sub-heading (.*)$")
-  public void iSeeTheSubHeading(String message) {
-    var softAssertions = new SoftAssertions();
-    softAssertions
-            .assertThat(navigationPage.getSubHeadingMessage().getText())
+  @Then("^I verify visibility of sub-heading with (.*)$")
+  public void iVerifyVisibilityOfSubHeadingWith(String message) {
+    assertThat(navigationPage.getSubHeadingMessage().getText())
             .isEqualToIgnoringCase(message);
-    softAssertions.assertAll();
   }
 
   @Then("^I verify there are (.*) links in the page$")
-  public void iCountAllTheClickableElementsLinksInThePage(int amountOfLinks) {
-    navigationPage.listPresentLinks();
-    var softAssertions = new SoftAssertions();
-    softAssertions
-            .assertThat(navigationPage.getLinks().size())
+  public void iVerifyThereAreLinksInThePage(int amountOfLinks) {
+    navigationPage.logPresentLinks();
+
+    assertThat(navigationPage.getLinks().size())
             .isEqualTo(amountOfLinks);
-    softAssertions.assertAll();
   }
 
   @Then("^I see the footer (.*)$")
   public void iSeeTheFooter(String message) {
-    var softAssertions = new SoftAssertions();
-    softAssertions
-            .assertThat(navigationPage.getFooterMessage().getText())
+    assertThat(navigationPage.getFooterMessage().getText())
             .isEqualToIgnoringCase(message);
-    softAssertions.assertAll();
   }
 
   @And("I see the Fork me on Github badge")
   public void iSeeTheForkMeOnGithubBadge() {
-    var softAssertions = new SoftAssertions();
-    softAssertions
-            .assertThat(navigationPage.getForkMeBadge().isDisplayed())
+    assertThat(navigationPage.getForkMeBadge().isDisplayed())
             .isTrue();
-    softAssertions.assertAll();
   }
 
   @And("^I click (.*) link$")
-  public void iClickLink(Links link) {
+  public void iClickLink(HomePageLink link) {
     navigationPage.clickLink(link);
   }
 }

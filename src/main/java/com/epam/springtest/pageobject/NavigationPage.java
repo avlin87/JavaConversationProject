@@ -1,12 +1,15 @@
 package com.epam.springtest.pageobject;
 
 import static com.codeborne.selenide.Selectors.byTagName;
-import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
+
+import static com.codeborne.selenide.Selenide.open;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
-import com.epam.springtest.enums.Links;
+import com.epam.springtest.enums.HomePageLink;
 import com.epam.springtest.util.AppProperties;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -37,14 +40,14 @@ public class NavigationPage {
     open(properties.getBaseUrl());
   }
 
-  public void listPresentLinks() {
+  public void logPresentLinks() {
     log.info("The page currently has {} clickable links:", getLinks().size());
     for (SelenideElement link : links) {
       log.info(link.getText());
     }
   }
 
-  public void clickLink(Links link) {
+  public void clickLink(HomePageLink link) {
     $$(LINK_TEMPLATE)
             .findBy(Condition.text(link.getAltText()))
             .click();

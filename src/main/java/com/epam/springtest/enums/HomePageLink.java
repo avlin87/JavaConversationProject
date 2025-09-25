@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum Links{
+public enum HomePageLink {
     AB_TESTING("/abtest", "A/B Testing"),
     ADD_REMOVE_ELEMENTS("/add_remove_elements/", "Add/Remove Elements"),
     BASIC_AUTH("/basic_auth", "Basic Auth"),
