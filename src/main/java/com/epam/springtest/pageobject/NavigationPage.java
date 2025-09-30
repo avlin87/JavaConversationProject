@@ -1,12 +1,13 @@
 package com.epam.springtest.pageobject;
 
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byTagName;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.switchTo;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import com.epam.springtest.enums.HomePageLink;
@@ -14,6 +15,7 @@ import com.epam.springtest.util.AppProperties;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.openqa.selenium.NoAlertPresentException;
 import org.springframework.stereotype.Component;
 
 /**
@@ -35,6 +37,8 @@ public class NavigationPage {
   private final SelenideElement forkMeBadge = $("a").$("img[alt='Fork me on GitHub']");
   private final ElementsCollection links = $("#content").$$("a");
   private final String LINK_TEMPLATE = "#content a";
+  private final SelenideElement dottedRectangle = $("#hot-spot");
+  private final SelenideElement contextMenuItem =  $(".context-menu-list");
 
   public void openHomePage() {
     open(properties.getBaseUrl());
@@ -49,7 +53,24 @@ public class NavigationPage {
 
   public void clickLink(HomePageLink link) {
     $$(LINK_TEMPLATE)
-            .findBy(Condition.text(link.getAltText()))
+            .findBy(text(link.getAltText()))
             .click();
+  }
+
+  public void rightClickRectangle() {
+    dottedRectangle.contextClick();
+  }
+
+  public boolean isAlertPresent() {
+    try {
+      switchTo().alert();
+      return true;
+    } catch (NoAlertPresentException e) {
+      return false;
+    }
+  }
+
+  public void acceptAlert() {
+    switchTo().alert().accept();
   }
 }

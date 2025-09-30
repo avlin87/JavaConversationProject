@@ -2,11 +2,16 @@ package com.epam.springtest.steps;
 
 import com.epam.springtest.enums.HomePageLink;
 import com.epam.springtest.pageobject.NavigationPage;
+import com.epam.springtest.util.AppProperties;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.api.SoftAssertions;
+
+import static com.codeborne.selenide.Selenide.switchTo;
+import static com.codeborne.selenide.WebDriverRunner.url;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -19,6 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RequiredArgsConstructor
 public class NavigationSteps {
 
+  private final AppProperties properties;
   private final NavigationPage navigationPage;
 
   @When("^I open the home page$")
@@ -61,5 +67,32 @@ public class NavigationSteps {
   @And("^I click (.*) link$")
   public void iClickLink(HomePageLink link) {
     navigationPage.clickLink(link);
+  }
+
+  @And("^I verify (.*) page is properly displayed$")
+  public void iVerifyPageIsProperlyDisplayed(HomePageLink link) {
+    assertThat(url()).isEqualTo(properties.getBaseUrl().concat(link.getPath()));
+  }
+
+  @When("I right-click the rectangle present")
+  public void iRightClickTheRectanglePresent() {
+      navigationPage.rightClickRectangle();
+  }
+
+  @Then("^I verify alert is displayed with message (.*)$")
+  public void iVerifyAlertIsDisplayed(String alertMessage) {
+    SoftAssertions softAssert= new SoftAssertions();
+
+    softAssert.assertThat(navigationPage.isAlertPresent())
+            .isTrue();
+    softAssert.assertThat(switchTo().alert().getText())
+            .isEqualTo(alertMessage);
+
+    softAssert.assertAll();
+  }
+
+  @And("I accept alert message")
+  public void iAcceptAlertMessage() {
+    navigationPage.acceptAlert();
   }
 }
