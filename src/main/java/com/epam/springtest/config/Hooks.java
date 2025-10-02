@@ -2,8 +2,7 @@ package com.epam.springtest.config;
 
 import com.codeborne.selenide.Configuration;
 import io.cucumber.java.Before;
-import java.util.List;
-import java.util.Map;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 public class Hooks {
 
@@ -13,18 +12,20 @@ public class Hooks {
 
         boolean isCI = "true".equals(System.getenv("GITHUB_ACTIONS"));
 
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless=new");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--disable-gpu");
+        options.addArguments("--disable-extensions");
+        options.addArguments("--remote-allow-origins=*");
+
+        options.setCapability("acceptInsecureCerts", true);
+
         if (isCI) {
             Configuration.headless = true;
-            Configuration.browserCapabilities.setCapability("chromeOptions", Map.of(
-                    "args", List.of(
-                            "--no-sandbox",
-                            "--disable-dev-shm-usage",
-                            "--disable-gpu",
-                            "--disable-extensions",
-                            "--remote-allow-origins=*",
-                            "--user-data-dir=/tmp/chrome-profile"
-                    )
-            ));
+            Configuration.browser = "chrome";
+            Configuration.browserCapabilities = options;
         } else {
             Configuration.headless = false;
         }
