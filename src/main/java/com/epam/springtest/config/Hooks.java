@@ -1,14 +1,13 @@
 package com.epam.springtest.config;
 
 import com.codeborne.selenide.Configuration;
-import io.cucumber.java.BeforeAll;
-
+import io.cucumber.java.Before;
 import java.util.List;
 import java.util.Map;
 
 public class Hooks {
 
-    @BeforeAll
+    @Before(order = 0)
     public void setUp() {
         Configuration.browser = "chrome";
 
@@ -29,7 +28,5 @@ public class Hooks {
         } else {
             Configuration.headless = false;
         }
-
-        Configuration.baseUrl = "http://localhost:8080"; // o tu baseUrl real
     }
 }
