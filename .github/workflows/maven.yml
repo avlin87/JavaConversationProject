@@ -6,7 +6,7 @@ on:
     branches: [ main ]
 
 jobs:
-  selenide-tests:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -23,10 +23,10 @@ jobs:
           sudo apt update
           sudo apt install -y google-chrome-stable
 
-      - name: Install matching ChromeDriver
-        uses: nanasess/setup-chromedriver@v1
+      - name: Set up ChromeDriver
+        uses: actions/setup-chromedriver@v3
         with:
-          chrome-version: stable  # automatically matches installed Chrome
+          version: latest  # automatically matches the installed Chrome
 
       - name: Run Maven tests
         run: mvn clean test
