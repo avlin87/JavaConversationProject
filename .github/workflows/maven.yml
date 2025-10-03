@@ -10,8 +10,7 @@ name: Java CI with Maven
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   pull_request:
 
 jobs:
@@ -19,36 +18,37 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java: [17]   # adjust JDK if needed
+        java: [17]   # adjust to your Java version if needed
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
           distribution: temurin
           java-version: ${{ matrix.java }}
           cache: maven
-      - name: Ensure Chrome is installed (for headless tests)
+
+      - name: Install Chrome + Chromedriver
         uses: browser-actions/setup-chrome@v2
         with:
-          chrome-version: latest
+          chrome-version: stable
           install-chromedriver: true
-      - name: Build with Maven
-        run: mvn -B package --file pom.xml
+
+      - name: Show Chrome & Driver versions
+        run: |
+          google-chrome --version
+          chromedriver --version
 
       - name: Run Maven tests (headless Chrome)
         run: mvn -B clean test \
           -Dselenide.browser=chrome \
           -Dselenide.headless=true \
           -Dselenide.browserSize=1920x1080 \
-          -Dselenide.chromeOptions="--no-sandbox,--disable-dev-shm-usage,--disable-gpu,--window-size=1920,1080,--headless=new"
-
-
-      # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
-      - name: Update dependency graph
-        uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
+          -Dselenide.chromeOptions="--no-sandbox,--disable-dev-shm-usage,--disable-gpu,--window-size=1920,1080,--headless=new" \
+          -Dwebdriver.chrome.driver=/usr/bin/chromedriver
 
       - name: Upload test artifacts
         if: always()
@@ -58,6 +58,5 @@ jobs:
           path: |
             target/surefire-reports/**/*.xml
             target/failsafe-reports/**/*.xml
-            target/*.html
             target/cucumber.json
             target/screenshots/**/*
