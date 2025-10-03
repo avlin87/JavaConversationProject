@@ -3,13 +3,26 @@ package com.testbase;
 import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.BeforeAll;
 
+import java.util.Arrays;
+
 public class TestBase {
     @BeforeAll
-    public static void globalSetup() {
-        // Use system properties passed from GitHub Actions, default to headless=true
-        Configuration.browser = System.getProperty("selenide.browser", "chrome");
-        Configuration.headless = Boolean.parseBoolean(System.getProperty("selenide.headless", "true"));
-        Configuration.browserSize = System.getProperty("selenide.browserSize", "1920x1080");
-        // optional: Configuration.timeout = 8000;
+    static void setup() {
+        Configuration.browser = "chrome";
+        Configuration.headless = true;
+        Configuration.browserSize = "1920x1080";
+
+        // Add Chrome options
+        Configuration.browserCapabilities.setCapability(
+                "goog:chromeOptions",
+                new org.openqa.selenium.chrome.ChromeOptions()
+                        .addArguments(Arrays.asList(
+                                "--no-sandbox",
+                                "--disable-dev-shm-usage",
+                                "--disable-gpu",
+                                "--window-size=1920,1080",
+                                "--headless=new"
+                        ))
+        );
     }
 }
