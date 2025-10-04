@@ -34,7 +34,7 @@ jobs:
       - name: Install Chrome + Chromedriver
         uses: browser-actions/setup-chrome@v2
         with:
-          chrome-version: stable
+          chrome-version: 140
           install-chromedriver: true
 
       - name: Show Chrome & Driver versions
