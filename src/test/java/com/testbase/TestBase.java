@@ -9,11 +9,10 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 public class TestBase {
 
-    @BeforeAll
-    public void setup() {
+    static{
         Configuration.browser = "chrome";
         Configuration.headless = true; // run headless in CI
-        Configuration.browserSize = "1366x768";
+        Configuration.browserSize = "1366x767";
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--no-sandbox");
@@ -30,7 +29,6 @@ public class TestBase {
             e.printStackTrace();
         }
 
-        WebDriver driver = new ChromeDriver(options);
-        WebDriverRunner.setWebDriver(driver);
+        Configuration.browserCapabilities = options;
     }
 }
