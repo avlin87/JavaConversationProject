@@ -1,31 +1,37 @@
 package com.testbase;
 
 import com.codeborne.selenide.Configuration;
-import org.junit.jupiter.api.BeforeAll;
+import com.codeborne.selenide.WebDriverRunner;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 
-import java.util.Arrays;
-import java.util.UUID;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class TestBase {
 
-    @BeforeAll
-    static void setup() {
+    static {
         Configuration.browser = "chrome";
-        Configuration.headless = true;
-        Configuration.browserSize = "1920x1080";
+        Configuration.headless = true; // run headless in CI
+        Configuration.browserSize = "1366x768";
 
-        // Add Chrome options
-        Configuration.browserCapabilities.setCapability(
-                "goog:chromeOptions",
-                new org.openqa.selenium.chrome.ChromeOptions()
-                        .addArguments(Arrays.asList(
-                                "--no-sandbox",
-                                "--disable-dev-shm-usage",
-                                "--disable-gpu",
-                                "--window-size=1920,1080",
-                                "--headless=new",
-                                "--user-data-dir=/tmp/chrome-profile-" + UUID.randomUUID()
-                        ))
-        );
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--disable-gpu");
+        options.addArguments("--disable-extensions");
+        options.addArguments("--remote-allow-origins=*");
+
+        try {
+            // create unique tmp dir per run
+            Path tmpProfile = Files.createTempDirectory("chrome-profile");
+            options.addArguments("--user-data-dir=" + tmpProfile.toAbsolutePath());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        WebDriver driver = new ChromeDriver(options);
+        WebDriverRunner.setWebDriver(driver);
     }
 }

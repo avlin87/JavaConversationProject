@@ -46,12 +46,7 @@ jobs:
         run: mvn -B package --file pom.xml
 
       - name: Run Maven tests (headless Chrome)
-        run: mvn -B clean test \
-          -Dselenide.browser=chrome \
-          -Dselenide.headless=true \
-          -Dselenide.browserSize=1920x1080 \
-          -Dselenide.chromeOptions="--no-sandbox,--disable-dev-shm-usage,--disable-gpu,--window-size=1920,1080,--headless=new,--user-data-dir=/tmp/chrome-profile-${{ github.run_id }}-${{ github.run_attempt }}" \
-          -Dwebdriver.chrome.driver=/usr/bin/chromedriver
+        run: mvn test -Dselenide.headless=true
 
       - name: Upload test artifacts
         if: always()
