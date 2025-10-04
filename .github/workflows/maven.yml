@@ -1,0 +1,60 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Java CI with Maven
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [17]   # adjust to your Java version if needed
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.java }}
+          cache: maven
+
+      - name: Install Chrome + Chromedriver
+        uses: browser-actions/setup-chrome@v2
+        with:
+          chrome-version: 140
+          install-chromedriver: true
+
+      - name: Show Chrome & Driver versions
+        run: |
+          google-chrome --version
+          chromedriver --version
+
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
+
+      - name: Run Maven tests (headless Chrome)
+        run: mvn test -Dselenide.headless=true
+
+      - name: Upload test artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-artifacts
+          path: |
+            target/surefire-reports/**/*.xml
+            target/failsafe-reports/**/*.xml
+            target/cucumber.json
+            target/screenshots/**/*
