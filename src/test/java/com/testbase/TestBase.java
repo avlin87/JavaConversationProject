@@ -2,16 +2,15 @@ package com.testbase;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
+import io.cucumber.java.BeforeAll;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-
 public class TestBase {
 
-    static {
+    @BeforeAll
+    public void setup() {
         Configuration.browser = "chrome";
         Configuration.headless = true; // run headless in CI
         Configuration.browserSize = "1366x768";
@@ -22,11 +21,11 @@ public class TestBase {
         options.addArguments("--disable-gpu");
         options.addArguments("--disable-extensions");
         options.addArguments("--remote-allow-origins=*");
+        options.addArguments("--incognito");
 
         try {
             // create unique tmp dir per run
-            Path tmpProfile = Files.createTempDirectory("chrome-profile");
-            options.addArguments("--user-data-dir=" + tmpProfile.toAbsolutePath());
+            options.addArguments("--user-data-dir=/tmp/chrome-" + System.currentTimeMillis());
         } catch (Exception e) {
             e.printStackTrace();
         }
