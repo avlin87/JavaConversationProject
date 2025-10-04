@@ -4,6 +4,7 @@ import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.BeforeAll;
 
 import java.util.Arrays;
+import java.util.UUID;
 
 public class TestBase {
     @BeforeAll
@@ -21,7 +22,8 @@ public class TestBase {
                                 "--disable-dev-shm-usage",
                                 "--disable-gpu",
                                 "--window-size=1920,1080",
-                                "--headless=new"
+                                "--headless=new",
+                                "--user-data-dir=/tmp/chrome-profile-" + UUID.randomUUID()
                         ))
         );
     }
