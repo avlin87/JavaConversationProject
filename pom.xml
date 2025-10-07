@@ -98,6 +98,7 @@
             <version>6.3.2</version>
             <scope>test</scope>
         </dependency>
+    </dependencies>
 
     <build>
         <plugins>
