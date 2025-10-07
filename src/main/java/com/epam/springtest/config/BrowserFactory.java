@@ -1,6 +1,5 @@
 package com.epam.springtest.config;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.Getter;
 import lombok.experimental.UtilityClass;
 import org.openqa.selenium.Dimension;
@@ -21,17 +20,12 @@ public class BrowserFactory {
     @Getter
     private WebDriverWait waitDriver;
 
-    public void startBrowser() {
-        configureDriver(false);
-    }
-
     public void startBrowser(boolean isHeadLess) {
         configureDriver(isHeadLess);
     }
 
     private void configureDriver(boolean isHeadLess) {
         String os = System.getProperty("os.name").toLowerCase();
-        //WebDriverManager.chromedriver().clearDriverCache().setup();
         if (os.contains("mac") || os.contains("win")) {
             driver = new ChromeDriver(getChromeOptions(isHeadLess));
         } else {
@@ -56,7 +50,6 @@ public class BrowserFactory {
                 "--disable-extensions",
                 "--disable-gpu",
                 "--remote-allow-origins=*",
-                "--incognito",
                 "--user-data-dir=/tmp/chrome-" + System.currentTimeMillis());
 
         if (isHeadLess) {
@@ -68,18 +61,6 @@ public class BrowserFactory {
 
     public void setImplicitWait(int seconds) {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(seconds));
-    }
-
-    public void setWaitForPageLoad(int seconds) {
-        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(seconds));
-    }
-
-    public void refreshPage() {
-        driver.navigate().refresh();
-    }
-
-    public void navigateTo(String url) {
-        driver.navigate().to(url);
     }
 
     public void setDimension(Dimension dimension) {

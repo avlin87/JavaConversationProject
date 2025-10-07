@@ -19,7 +19,6 @@ public class Hooks {
 
     @Before
     public void setUp() {
-        log.info("Entro al setup");
         BrowserFactory.startBrowser(false);
         WebDriverRunner.setWebDriver(BrowserFactory.getDriver());
     }
