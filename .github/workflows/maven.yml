@@ -38,7 +38,7 @@ jobs:
           install-chromedriver: true
 
       - name: Build and Run with Maven
-        run: mvn -B clean package
+        run: mvn -B clean package --file pom.xml
 
       - name: Upload test artifacts
         if: always()
