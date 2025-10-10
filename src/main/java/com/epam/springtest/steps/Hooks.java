@@ -19,7 +19,7 @@ public class Hooks {
 
     @Before
     public void setUp() {
-        BrowserFactory.startBrowser(false);
+        BrowserFactory.startBrowser(true);
         WebDriverRunner.setWebDriver(BrowserFactory.getDriver());
     }
 

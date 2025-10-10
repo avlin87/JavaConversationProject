@@ -82,3 +82,10 @@ jobs:
             target/failsafe-reports/**/*.xml
             target/cucumber.json
             target/screenshots/**/*
+
+  deploy:
+    - name: Build Docker image
+      run: docker build -t JavaConversationProject .
+
+    - name: Run tests in Docker
+      run: docker run --rm JavaConversationProject
