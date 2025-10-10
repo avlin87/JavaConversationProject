@@ -83,7 +83,7 @@ jobs:
             target/screenshots/**/*
 
       - name: Build Docker image
-        run: docker build -t JavaConversationProject .
+        run: docker build -t javaconversationproject .
 
       - name: Run tests in Docker
-        run: docker run --rm JavaConversationProject
+        run: docker run --rm javaconversationproject
