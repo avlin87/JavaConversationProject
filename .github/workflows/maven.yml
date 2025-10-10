@@ -1,0 +1,38 @@
+name: Java CI with Maven
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  schedule:
+    # Ejecuta cada lunes a las 7 AM (UTC → ajusta según tu zona horaria si quieres)
+    - cron: '0 13 * * 1'
+
+jobs:
+  build_and_test:
+    name: 🧪 Build & Test in Docker
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🧩 Checkout repository
+        uses: actions/checkout@v4
+
+      # 🔧 (Opcional) Configura caché de Docker para builds más rápidos
+      - name: ⚡ Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # 🧱 Construye la imagen Docker con Maven, Chrome, etc.
+      - name: 🏗️ Build Docker image
+        run: docker build -t javaconversationproject .
+
+      # 🚀 Ejecuta los tests dentro del contenedor
+      - name: 🧪 Run tests inside container
+        run: docker run --rm javaconversationproject
+
+      # ✅ (Opcional) Subir el reporte de tests o logs como artefacto
+      - name: 📦 Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: target/surefire-reports
