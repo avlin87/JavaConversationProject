@@ -22,4 +22,4 @@ ENV PATH="/usr/bin:$PATH"
 ENV DISPLAY=:99
 ENV CHROME_BIN=/usr/bin/google-chrome
 
-CMD ["mvn", "test"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
