@@ -4,9 +4,7 @@ WORKDIR /app
 COPY pom.xml .
 RUN mvn dependency:go-offline -B
 
-#COPY src ./src
-COPY target/spring.test-0.0.1-SNAPSHOT.jar app.jar
-
+COPY src ./src
 
 RUN apt-get update && apt-get install -y wget gnupg unzip curl && \
     curl -fsSL https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /usr/share/keyrings/google-linux.gpg && \
@@ -22,4 +20,4 @@ ENV PATH="/usr/bin:$PATH"
 ENV DISPLAY=:99
 ENV CHROME_BIN=/usr/bin/google-chrome
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+CMD ["mvn", "-B", "test"]
