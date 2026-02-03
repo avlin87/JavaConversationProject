@@ -1,3 +1,4 @@
+@ui
 Feature: Home page landing
 
   Scenario: Verify heading on home page

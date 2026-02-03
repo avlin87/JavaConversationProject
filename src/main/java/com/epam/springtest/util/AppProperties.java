@@ -17,5 +17,6 @@ public class AppProperties {
   private String username;
   private String password;
   private String baseUrl;
+  private String apiBaseUrl;
   private String browser;
 }
