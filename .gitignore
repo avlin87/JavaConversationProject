@@ -62,3 +62,4 @@ Thumbs.db
 /cucumber.json
 /allure-results/
 /allure-report/
+.allure
