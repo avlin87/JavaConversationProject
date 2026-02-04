@@ -4,3 +4,6 @@ app:
 
   username: ${APP_USERNAME}
   password: ${APP_PASSWORD}
+
+driver:
+  headless: true
