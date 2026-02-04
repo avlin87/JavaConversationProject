@@ -1,11 +1,14 @@
 package com.epam.springtest.steps;
 
 import com.codeborne.selenide.WebDriverRunner;
+import com.codeborne.selenide.logevents.SelenideLogger;
 import com.epam.springtest.config.BrowserFactory;
 import com.epam.springtest.util.DriverConfig;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import io.cucumber.java.BeforeAll;
 import io.cucumber.java.Scenario;
+import io.qameta.allure.selenide.AllureSelenide;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.OutputType;
@@ -16,6 +19,14 @@ import org.openqa.selenium.TakesScreenshot;
 public class Hooks {
 
     private final DriverConfig driverConfig;
+
+    @BeforeAll
+    public static void setUpAllure(){
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
+                .screenshots(true)
+                .savePageSource(true)
+        );
+    }
 
     @Before
     public void logScenarioStart(Scenario scenario) {
