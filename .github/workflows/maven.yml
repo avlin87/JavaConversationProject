@@ -21,7 +21,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: 🏗️ Build Docker image
-        run: docker build -t javaconversationproject .
+        run: docker build --pull -t javaconversationproject .
 
       - name: 🧪 Run tests inside container
         run: docker run --rm javaconversationproject
