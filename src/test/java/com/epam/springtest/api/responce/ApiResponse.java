@@ -15,10 +15,6 @@ public class ApiResponse {
     return response.getStatusCode();
   }
 
-  public String bodyAsString() {
-    return response.getBody().asString();
-  }
-
   public Response raw() {
     return response;
   }

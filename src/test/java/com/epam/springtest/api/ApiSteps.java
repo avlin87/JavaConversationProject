@@ -7,18 +7,16 @@ import com.epam.springtest.api.responce.ApiResponse;
 import com.epam.springtest.util.AppProperties;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 /** Step definitions for API scenarios. */
-public class ApiSteps extends ApiBase {
+@Slf4j
+public class ApiSteps {
 
-  private static final Logger log = LoggerFactory.getLogger(ApiSteps.class);
   private ApiResponse lastResponse;
   private final StatusCodeRequest statusCodeRequest;
 
   public ApiSteps(AppProperties properties) {
-    super(properties);
     this.statusCodeRequest = new StatusCodeRequest(properties);
   }
 
