@@ -44,11 +44,9 @@ public class Hooks {
 
     @After
     public void tearDown(Scenario scenario) {
-        if (scenario.isFailed()) {
-            final byte[] screenshot =
-                    ((TakesScreenshot) BrowserFactory.getDriver()).getScreenshotAs(OutputType.BYTES);
-            scenario.attach(screenshot, "image/png", "failed_image");
-        }
+        final byte[] screenshot =
+                ((TakesScreenshot) BrowserFactory.getDriver()).getScreenshotAs(OutputType.BYTES);
+        scenario.attach(screenshot, "image/png", "failed_image");
     }
 
     @After
