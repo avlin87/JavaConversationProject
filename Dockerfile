@@ -21,11 +21,11 @@ ENV DISPLAY=:99
 # Corre pruebas + genera reporte Allure vía plugin
 RUN mvn clean test
 
-RUN mvn allure:report
-
-Run mvn allure:serve
-
 # -------- Stage 2: serve static report --------
 FROM nginx:alpine AS report
 COPY --from=builder /app/target/site/allure-maven-plugin/ /usr/share/nginx/html/
 EXPOSE 80
+
+RUN mvn allure:report
+
+Run mvn allure:serve
