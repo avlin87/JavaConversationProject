@@ -22,6 +22,11 @@
         <junit-bom.version>5.13.1</junit-bom.version>
         <aspectj.version>1.9.24</aspectj.version>
         <lombok.version>1.18.42</lombok.version>
+        <webdrivermanager.version>6.3.2</webdrivermanager.version>
+        <rest-assured.version>5.4.0</rest-assured.version>
+        <allure-selenide.version>2.29.0</allure-selenide.version>
+        <allure-maven.version>2.14.0</allure-maven.version>
+        <maven-compiler-plugin.release>25</maven-compiler-plugin.release>
     </properties>
 
     <dependencyManagement>
@@ -96,19 +101,26 @@
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
-            <version>6.3.2</version>
+            <version>${webdrivermanager.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${rest-assured.version}</version>
             <scope>test</scope>
         </dependency>
         <!---Allure-->
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-selenide</artifactId>
-            <version>2.29.0</version>
+            <version>${allure-selenide.version}</version>
         </dependency>
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-junit5</artifactId>
-            <version>2.29.0</version>
+            <version>${allure-selenide.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -151,16 +163,16 @@
                             <version>${lombok.version}</version>
                         </path>
                     </annotationProcessorPaths>
-                    <release>25</release>
+                    <release>${maven-compiler-plugin.release}</release>
                 </configuration>
             </plugin>
 
             <plugin>
                 <groupId>io.qameta.allure</groupId>
                 <artifactId>allure-maven</artifactId>
-                <version>2.14.0</version>
+                <version>${allure-maven.version}</version>
                 <configuration>
-                    <reportVersion>2.29.0</reportVersion>
+                    <reportVersion>${allure-selenide.version}</reportVersion>
                 </configuration>
             </plugin>
         </plugins>
