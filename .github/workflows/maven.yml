@@ -32,12 +32,12 @@ jobs:
           docker cp tmp:/app/target/site/allure-maven-plugin ./allure-report || true
           docker rm -f tmp
 
-#      - name: 📦 Upload surefire reports
-#        if: always()
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: surefire-reports
-#          path: surefire-reports
+      - name: 📦 Upload surefire reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: surefire-reports
+          path: surefire-reports
 
       - name: 📦 Upload Allure HTML report
         if: always()
