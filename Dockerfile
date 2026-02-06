@@ -20,4 +20,38 @@ ENV PATH="/usr/bin:$PATH"
 ENV DISPLAY=:99
 ENV CHROME_BIN=/usr/bin/google-chrome
 
-CMD ["mvn", "-B", "test"]
+# Run tests and generate Allure results data (XML/JSON files)
+# The "mvn clean install" command typically runs the tests
+RUN mvn clean install -DskipTests
+# Then run the tests specifically to generate results
+RUN mvn test
+
+# Stage 2: Generate and serve the Allure Report
+# Use a Java image as Allure requires Java to run its command line tool
+FROM openjdk:25-alpine AS server
+
+# Install curl and unzip to manage Allure CLI download
+RUN apk update && apk add curl unzip bash
+
+# Define Allure version and installation directory
+ENV ALLURE_VERSION 2.27.0
+ENV ALLURE_HOME /opt/allure
+ENV PATH $PATH:$ALLURE_HOME/bin
+
+# Download and install Allure commandline
+RUN curl -Ls https://repo.maven.apache.org | tar xz -C /opt/
+RUN mv /opt/allure-commandline-$ALLURE_VERSION /opt/allure
+
+# Copy the generated Allure results from the builder stage
+COPY --from=builder /app/target/allure-results /app/allure-results
+WORKDIR /app
+
+# Generate the HTML report into the 'allure-report' directory
+RUN allure generate allure-results --clean -o allure-report
+
+# Expose a port to view the report (e.g., port 80)
+EXPOSE 80
+
+# Command to serve the generated report, automatically opening it in a browser
+# Note: "allure serve" is for local viewing, for a persistent container, a simple web server is better
+CMD ["allure", "serve", "allure-results", "-p", "80"]
