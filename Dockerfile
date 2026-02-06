@@ -19,7 +19,11 @@ ENV CHROME_BIN=/usr/bin/google-chrome
 ENV DISPLAY=:99
 
 # Corre pruebas + genera reporte Allure vía plugin
-RUN mvn -B test allure:serve
+RUN mvn clean test
+
+RUN mvn allure:report
+
+Run mvn allure:serve
 
 # -------- Stage 2: serve static report --------
 FROM nginx:alpine AS report
