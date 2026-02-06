@@ -6,11 +6,12 @@ import com.epam.springtest.config.BrowserFactory;
 import com.epam.springtest.util.DriverConfig;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
-import io.cucumber.java.BeforeAll;
 import io.cucumber.java.Scenario;
 import io.qameta.allure.selenide.AllureSelenide;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 
@@ -48,6 +49,15 @@ public class Hooks {
                     ((TakesScreenshot) BrowserFactory.getDriver()).getScreenshotAs(OutputType.BYTES);
             scenario.attach(screenshot, "image/png", "failed_image");
         }
+    }
+
+    @After
+    public void tearDownAllureSelenide() {
+        SelenideLogger.removeListener("AllureSelenide");
+    }
+
+    @AfterAll
+    public static void closeBrowser(){
         BrowserFactory.closeBrowser();
     }
 }
