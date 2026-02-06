@@ -19,17 +19,25 @@ jobs:
       - name: ⚡ Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # 1) Build SOLO la etapa builder (ahí corren tests y se genera Allure)
-      - name: 🏗️ Build builder stage (runs tests)
+      # Build SOLO la etapa builder (ahí corren tests y se genera allure:report)
+      - name: 🏗️ Build builder stage (runs tests + report)
         run: docker build --target builder -t javaconversationproject-builder .
 
-      # 2) Extraer artefactos desde el contenedor
-      - name: 📤 Extract surefire + allure report from container
+      # Extrae artefactos desde el contenedor SIEMPRE
+      - name: 📤 Extract test reports + allure from container
         if: always()
         run: |
           docker create --name tmp javaconversationproject-builder
+
+          # JUnit/Surefire reports
           docker cp tmp:/app/target/surefire-reports ./surefire-reports || true
+
+          # Allure raw results (clave para debug si el HTML sale vacío)
+          docker cp tmp:/app/target/allure-results ./allure-results || true
+
+          # Allure HTML report (generado por mvn allure:report)
           docker cp tmp:/app/target/site/allure-maven-plugin ./allure-report || true
+
           docker rm -f tmp
 
       - name: 📦 Upload surefire reports
