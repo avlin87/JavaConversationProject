@@ -18,9 +18,9 @@ import org.junit.platform.suite.api.*;
  */
 @Suite
 @IncludeEngines("cucumber")
-@SelectClasspathResource("features.ui")
+@SelectClasspathResource("features")
 @ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "com.epam.springtest")
-@ConfigurationParameter(
-    key = PLUGIN_PROPERTY_NAME,
-    value = "pretty,summary,html:target/cucumber.html")
+//@ConfigurationParameter(
+//    key = PLUGIN_PROPERTY_NAME,
+//    value = "pretty,summary,html:target/cucumber.html")
 public class CucumberTest {}

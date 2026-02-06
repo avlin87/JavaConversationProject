@@ -24,10 +24,24 @@
         <lombok.version>1.18.42</lombok.version>
         <allure.version>2.27.0</allure.version>
         <allure.maven.plugin.version>2.12.0</allure.maven.plugin.version>
+        <allure-bom.version>2.32.0</allure-bom.version>
+        <cucumber-java.version>${cucumber-junit-platform-engine.version}</cucumber-java.version>
+        <cucumber-junit-platform-engine.version>7.18.1</cucumber-junit-platform-engine.version>
+        <allure-selenide.version>2.29.0</allure-selenide.version>
+        <allure-junit5.version>2.29.0</allure-junit5.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-bom</artifactId>
+                <version>${allure-bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
             <dependency>
                 <groupId>io.cucumber</groupId>
                 <artifactId>cucumber-bom</artifactId>
@@ -53,14 +67,24 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit-platform-engine</artifactId>
+            <version>${cucumber-junit-platform-engine.version}</version>
         </dependency>
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-suite</artifactId>
         </dependency>
+
+        <!-- Allure adapter para Cucumber 7 -->
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-cucumber7-jvm</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
+            <version>${cucumber-java.version}</version>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
@@ -105,12 +129,12 @@
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-selenide</artifactId>
-            <version>2.29.0</version>
+            <version>${allure-selenide.version}</version>
         </dependency>
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-junit5</artifactId>
-            <version>2.29.0</version>
+            <version>${allure-junit5.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

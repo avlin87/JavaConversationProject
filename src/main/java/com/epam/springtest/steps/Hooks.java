@@ -22,10 +22,7 @@ public class Hooks {
 
     @BeforeAll
     public static void setUpAllure(){
-        SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
-                .screenshots(true)
-                .savePageSource(true)
-        );
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
     }
 
     @Before
