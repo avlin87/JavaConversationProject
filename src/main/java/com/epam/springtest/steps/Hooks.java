@@ -22,7 +22,7 @@ public class Hooks {
     private final DriverConfig driverConfig;
 
     @BeforeAll
-    public static void setUpAllure(){
+    public static void setUpAllure() {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
     }
 
@@ -59,7 +59,7 @@ public class Hooks {
     }
 
     @AfterAll
-    public static void closeBrowser(){
+    public static void closeBrowser() {
         BrowserFactory.closeBrowser();
     }
 }
