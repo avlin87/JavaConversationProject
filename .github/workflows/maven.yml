@@ -5,7 +5,6 @@ on:
     branches: [ main ]
   pull_request:
   schedule:
-    # Executes every monday at 7 a.m.
     - cron: '0 13 * * 1'
 
 jobs:
@@ -20,15 +19,37 @@ jobs:
       - name: ⚡ Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: 🏗️ Build Docker image
-        run: docker build -t javaconversationproject .
+      # Build SOLO la etapa builder (ahí corren tests y se genera allure:report)
+      - name: 🏗️ Build builder stage (runs tests + report)
+        run: docker build --target builder -t javaconversationproject-builder .
 
-      - name: 🧪 Run tests inside container
-        run: docker run --rm javaconversationproject
+      # Extrae artefactos desde el contenedor SIEMPRE
+      - name: 📤 Extract test reports + allure from container
+        if: always()
+        run: |
+          docker create --name tmp javaconversationproject-builder
 
-      - name: 📦 Upload test reports
+          # JUnit/Surefire reports
+          docker cp tmp:/app/target/surefire-reports ./surefire-reports || true
+
+          # Allure raw results (clave para debug si el HTML sale vacío)
+          docker cp tmp:/app/target/allure-results ./allure-results || true
+
+          # Allure HTML report (generado por mvn allure:report)
+          docker cp tmp:/app/target/site/allure-maven-plugin ./allure-report || true
+
+          docker rm -f tmp
+
+      - name: 📦 Upload surefire reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: test-reports
-          path: target/surefire-reports
+          name: surefire-reports
+          path: surefire-reports
+
+      - name: 📦 Upload Allure HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report

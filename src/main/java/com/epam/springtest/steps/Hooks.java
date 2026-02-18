@@ -6,11 +6,12 @@ import com.epam.springtest.config.BrowserFactory;
 import com.epam.springtest.util.DriverConfig;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
-import io.cucumber.java.BeforeAll;
 import io.cucumber.java.Scenario;
 import io.qameta.allure.selenide.AllureSelenide;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 
@@ -21,11 +22,8 @@ public class Hooks {
     private final DriverConfig driverConfig;
 
     @BeforeAll
-    public static void setUpAllure(){
-        SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
-                .screenshots(true)
-                .savePageSource(true)
-        );
+    public static void setUpAllure() {
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
     }
 
     @Before
@@ -50,11 +48,14 @@ public class Hooks {
             return;
         }
 
-        if (scenario.isFailed()) {
-            final byte[] screenshot =
-                    ((TakesScreenshot) BrowserFactory.getDriver()).getScreenshotAs(OutputType.BYTES);
-            scenario.attach(screenshot, "image/png", "failed_image");
-        }
+        final byte[] screenshot =
+                ((TakesScreenshot) BrowserFactory.getDriver()).getScreenshotAs(OutputType.BYTES);
+        scenario.attach(screenshot, "image/png", "failed_image");
+    }
+
+    @AfterAll
+    public static void closeBrowser() {
+        SelenideLogger.removeListener("AllureSelenide");
         BrowserFactory.closeBrowser();
     }
 }

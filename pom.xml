@@ -27,10 +27,25 @@
         <allure-selenide.version>2.29.0</allure-selenide.version>
         <allure-maven.version>2.14.0</allure-maven.version>
         <maven-compiler-plugin.release>25</maven-compiler-plugin.release>
+        <allure.version>2.27.0</allure.version>
+        <allure.maven.plugin.version>2.12.0</allure.maven.plugin.version>
+        <allure-bom.version>2.32.0</allure-bom.version>
+        <cucumber-java.version>7.18.1</cucumber-java.version>
+        <allure-selenide.version>2.29.0</allure-selenide.version>
+        <allure-junit5.version>2.29.0</allure-junit5.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-bom</artifactId>
+                <version>${allure-bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
             <dependency>
                 <groupId>io.cucumber</groupId>
                 <artifactId>cucumber-bom</artifactId>
@@ -56,14 +71,23 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit-platform-engine</artifactId>
+            <version>${cucumber-java.version}</version>
         </dependency>
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-suite</artifactId>
         </dependency>
+
+        <!-- Allure adapter para Cucumber 7 -->
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-cucumber7-jvm</artifactId>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
+            <version>${cucumber-java.version}</version>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
@@ -120,7 +144,7 @@
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-junit5</artifactId>
-            <version>${allure-selenide.version}</version>
+            <version>${allure-junit5.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -170,9 +194,11 @@
             <plugin>
                 <groupId>io.qameta.allure</groupId>
                 <artifactId>allure-maven</artifactId>
-                <version>${allure-maven.version}</version>
+                <version>${allure.maven.plugin.version}</version>
                 <configuration>
-                    <reportVersion>${allure-selenide.version}</reportVersion>
+                    <reportVersion>${allure.version}</reportVersion>
+                    <resultsDirectory>${project.build.directory}/allure-results</resultsDirectory>
+                    <reportDirectory>${project.build.directory}/site/allure-maven-plugin</reportDirectory>
                 </configuration>
             </plugin>
         </plugins>
