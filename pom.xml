@@ -30,8 +30,7 @@
         <allure.version>2.27.0</allure.version>
         <allure.maven.plugin.version>2.12.0</allure.maven.plugin.version>
         <allure-bom.version>2.32.0</allure-bom.version>
-        <cucumber-java.version>${cucumber-junit-platform-engine.version}</cucumber-java.version>
-        <cucumber-junit-platform-engine.version>7.18.1</cucumber-junit-platform-engine.version>
+        <cucumber-java.version>7.18.1</cucumber-java.version>
         <allure-selenide.version>2.29.0</allure-selenide.version>
         <allure-junit5.version>2.29.0</allure-junit5.version>
     </properties>
@@ -72,7 +71,7 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit-platform-engine</artifactId>
-            <version>${cucumber-junit-platform-engine.version}</version>
+            <version>${cucumber-java.version}</version>
         </dependency>
         <dependency>
             <groupId>org.junit.platform</groupId>
@@ -85,7 +84,6 @@
             <artifactId>allure-cucumber7-jvm</artifactId>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
