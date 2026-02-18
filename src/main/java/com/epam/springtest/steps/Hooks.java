@@ -31,7 +31,7 @@ public class Hooks {
         log.info("\n** Starting scenario: {} **", scenario.getName());
     }
 
-    @Before
+    @Before("@ui")
     public void setUp() {
         BrowserFactory.startBrowser(driverConfig.isHeadless());
         WebDriverRunner.setWebDriver(BrowserFactory.getDriver());
@@ -42,8 +42,12 @@ public class Hooks {
         log.info("\n** Finished scenario: {} **", scenario.getName());
     }
 
-    @After
+    @After("@ui")
     public void tearDown(Scenario scenario) {
+        if (BrowserFactory.getDriver() == null) {
+            return;
+        }
+
         final byte[] screenshot =
                 ((TakesScreenshot) BrowserFactory.getDriver()).getScreenshotAs(OutputType.BYTES);
         scenario.attach(screenshot, "image/png", "failed_image");

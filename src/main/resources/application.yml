@@ -1,5 +1,6 @@
 app:
   base-url: https://the-internet.herokuapp.com
+  api-base-url: https://the-internet.herokuapp.com
   browser: chrome
 
   username: ${APP_USERNAME}
