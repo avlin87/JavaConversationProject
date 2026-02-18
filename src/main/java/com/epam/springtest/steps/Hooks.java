@@ -53,13 +53,9 @@ public class Hooks {
         scenario.attach(screenshot, "image/png", "failed_image");
     }
 
-    @After
-    public void tearDownAllureSelenide() {
-        SelenideLogger.removeListener("AllureSelenide");
-    }
-
     @AfterAll
     public static void closeBrowser() {
+        SelenideLogger.removeListener("AllureSelenide");
         BrowserFactory.closeBrowser();
     }
 }
