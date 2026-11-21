@@ -1,3 +1,4 @@
+@ui
 Feature: Context Menu page
 
   Scenario: Open the site

@@ -4,7 +4,6 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byTagName;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
-
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.Selenide.switchTo;
 
@@ -30,15 +29,14 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class NavigationPage {
 
+  private static final String LINK_TEMPLATE = "#content a";
   private final AppProperties properties;
   private final SelenideElement headingMessage = $(byTagName("h1"));
   private final SelenideElement subHeadingMessage = $(byTagName("h2"));
   private final SelenideElement footerMessage = $("#page-footer");
   private final SelenideElement forkMeBadge = $("a").$("img[alt='Fork me on GitHub']");
   private final ElementsCollection links = $("#content").$$("a");
-  private final String LINK_TEMPLATE = "#content a";
   private final SelenideElement dottedRectangle = $("#hot-spot");
-  private final SelenideElement contextMenuItem =  $(".context-menu-list");
 
   public void openHomePage() {
     open(properties.getBaseUrl());
@@ -52,9 +50,7 @@ public class NavigationPage {
   }
 
   public void clickLink(HomePageLink link) {
-    $$(LINK_TEMPLATE)
-            .findBy(text(link.getAltText()))
-            .click();
+    $$(LINK_TEMPLATE).findBy(text(link.getAltText())).click();
   }
 
   public void rightClickRectangle() {
