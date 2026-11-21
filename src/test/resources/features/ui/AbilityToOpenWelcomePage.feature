@@ -11,12 +11,8 @@ Feature: Home page landing
 
   Scenario: Verify number of links on home page
     Given I open the home page
-    Then  I verify there are 44 links in the page
+    Then  I verify there are 76 links in the page
 
   Scenario: Verify footer on home page
     Given I open the home page
-    Then I see the footer Powered by Elemental Selenium
-
-  Scenario: Verify Github badge on home page
-    Given I open the home page
-    Then I see the Fork me on Github badge
+    Then I see the footer Powered by Elemental Selenium and Sauce Labs
