@@ -4,6 +4,5 @@ Feature: Home page landing
     Given I open the home page
     Then I verify visibility of heading with Welcome to the-internet
     And I verify visibility of sub-heading with Available Examples
-    And I verify there are 44 links in the page
-    And I see the footer Powered by Elemental Selenium
-    And I see the Fork me on Github badge
+    And I verify there are 76 links in the page
+    And I see the footer Powered by Elemental Selenium and Sauce Labs
